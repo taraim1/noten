@@ -16,7 +16,7 @@ React + React Flow를 기반으로 만들어졌습니다.
 
 자동 저장 : 브라우저 LocalStorage에 상태 저장
 
-🛠️ 기술 스택
+## 🛠️ 기술 스택
 
 React
 
