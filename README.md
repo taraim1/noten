@@ -1,12 +1,18 @@
-# React + Vite
+# Noten
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Noten은 빈 캔버스 위에 메모지를 붙이고, 그 메모들을 선으로 자유롭게 연결할 수 있는 간단한 다이어그램/화이트보드 툴입니다.
+React + React Flow를 기반으로 만들어졌습니다.
 
-Currently, two official plugins are available:
+## ✨ 기능
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+메모(노드) 생성
+메모 이동 : 드래그 & 드롭
+메모 편집 : 더블클릭 → 텍스트 수정
+메모 연결 : 메모의 포트에서 드래그하여 다른 메모에 연결
+자동 저장 : 브라우저 LocalStorage에 상태 저장
 
-## Expanding the ESLint configuration
+🛠️ 기술 스택
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+React
+React Flow
+Vite
