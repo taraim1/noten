@@ -34,15 +34,15 @@ body {
   letter-spacing: 0.3px;
 }
 
-.section {
+.buttons-section {
   display: flex;
   gap: 8px;
-  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .add-button {
   appearance: none;
-  border: 2px solid #fdf393;
+  border: 1px solid #fdf393;
   background: #fff9c4;
   color: black;
   padding: 8px 12px;
@@ -54,8 +54,32 @@ body {
 
 .delete-button {
   appearance: none;
-  border: 2px solid #ff1f1f;
+  border: 1px solid #ff1f1f;
   background: #ff5d5d;
+  color: black;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.save-button {
+  appearance: none;
+  border: 1px solid #cccccc;
+  background: #ebebeb;
+  color: black;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.load-button {
+  appearance: none;
+  border: 1px solid #cccccc;
+  background: #ebebeb;
   color: black;
   padding: 8px 12px;
   border-radius: 8px;

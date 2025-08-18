@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useEffect } from "react";
+import React, { useRef, useCallback, useEffect, useMemo } from "react";
 import ReactFlow, {
   Background,
   Controls,
@@ -11,17 +11,34 @@ import ReactFlow, {
 } from "reactflow";
 import "reactflow/dist/style.css";
 import StickyNode from "./StickyNode";
-const nodeTypes = {
-  sticky: (props) => <StickyNode {...props} />,
-};
 
 export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
+  // 콜백을 useCallback으로 생성
+  const handleChangeLabel = useCallback((id, newLabel) => {
+    setNodes((nds) =>
+      nds.map((n) =>
+        n.id === id ? { ...n, data: { ...n.data, label: newLabel } } : n
+      )
+    );
+  }, [setNodes]);
+
+  // nodeTypes를 useMemo로 감싸기
+  const nodeTypes = useMemo(() => ({
+    sticky: (props) => (
+      <StickyNode
+        {...props}
+        onChangeLabel={handleChangeLabel}
+      />
+    ),
+  }), [handleChangeLabel]);
+
   const rf = useReactFlow();
   const idRef = useRef(1);
   const wrapperRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   /* 노드 추가 */
   const addNote = useCallback(() => {
@@ -60,7 +77,7 @@ export default function App() {
         eds
       )
     );
-  }, []);
+  }, [setEdges]);
 
   /* 노드 전체 삭제 */
   const clearAll = useCallback(() => {
@@ -78,6 +95,39 @@ export default function App() {
     },
     [setEdges]
   );
+
+  // 파일로 저장
+  const saveToFile = () => {
+    const data = { nodes, edges };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "noten-data.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  // 파일에서 불러오기
+  const loadFromFile = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      try {
+        const data = JSON.parse(evt.target.result);
+        if (Array.isArray(data.nodes) && Array.isArray(data.edges)) {
+          setNodes(data.nodes);
+          setEdges(data.edges);
+        } else {
+          alert("잘못된 파일 형식입니다.");
+        }
+      } catch {
+        alert("파일을 읽을 수 없습니다.");
+      }
+      e.target.value = ""; // 추가: 같은 파일도 다시 선택 가능하게
+    };
+    reader.readAsText(file);
+  };
 
   useEffect(() => {
     const onKey = (e) => {
@@ -106,13 +156,28 @@ export default function App() {
     <div className="app" ref={wrapperRef}>
       <aside className="sidebar">
         <h1 className="logo">Noten</h1>
-        <div className="section">
+        <div className="buttons-section">
           <button className="add-button" onClick={addNote}>
             + 새 메모
           </button>
           <button className="delete-button" onClick={clearAll}>
             모두 지우기
           </button>
+          <button onClick={saveToFile} className="save-button">저장</button>
+          <button
+            type="button"
+            className="load-button"
+            onClick={() => fileInputRef.current && fileInputRef.current.click()}
+          >
+            불러오기
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="application/json"
+            style={{ display: "none" }}
+            onChange={loadFromFile}
+          />
         </div>
 
         <div className="hint">

@@ -1,10 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Handle, Position } from "reactflow";
 
-export default function StickyNode({ data, selected }) {
+export default function StickyNode({ data, selected, id, onChangeLabel }) {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(data.label || "메모");
   const inputRef = useRef(null);
+
+  // 불러오기시 label 업데이트
+  useEffect(() => {
+    setValue(data.label || "메모");
+  }, [data.label]);
 
   // 편집 모드 진입 시 input에 포커스
   useEffect(() => {
@@ -32,6 +37,9 @@ export default function StickyNode({ data, selected }) {
   // 값 변경
   function handleChange(e) {
     setValue(e.target.value);
+    if (onChangeLabel) {
+      onChangeLabel(id, e.target.value);
+    }
   }
 
   return (
