@@ -12,6 +12,134 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import StickyNode from "./StickyNode";
 
+{
+  /*노드 속성 바 (길어서 빼 둠)*/
+}
+function PropertyBar({
+  selectedNode,
+  showColorPicker,
+  setShowColorPicker,
+  handleToggleBold,
+  handleToggleItalic,
+  handleToggleStrike,
+  handleChangeColor,
+  setNodes,
+  isMobile,
+}) {
+  if (!selectedNode) return null;
+  return (
+    <div className="property-bar">
+      <span style={{ fontWeight: 600, fontSize: 18 }}>메모 속성</span>
+      <span></span>
+      <button
+        className="property-button"
+        style={{
+          fontWeight: 600,
+          background: selectedNode.data.bold ? "#e0e0e0" : "#ffffff",
+        }}
+        onClick={handleToggleBold}
+      >
+        B
+      </button>
+      <button
+        className="property-button"
+        style={{
+          fontStyle: "italic",
+          background: selectedNode.data.italic ? "#e0e0e0" : "#ffffff",
+        }}
+        onClick={handleToggleItalic}
+      >
+        I
+      </button>
+      <button
+        className="property-button"
+        style={{
+          textDecoration: "line-through",
+          background: selectedNode.data.strike ? "#e0e0e0" : "#ffffff",
+        }}
+        onClick={handleToggleStrike}
+      >
+        S
+      </button>
+      <button
+        className="property-button"
+        style={{
+          background: selectedNode.data.color || "#FFF9C4",
+        }}
+        onClick={() => setShowColorPicker((v) => !v)}
+      />
+      {showColorPicker && (
+        <div
+          style={{
+            position: "absolute",
+            top: 56,
+            left: isMobile ? 237 : 180,
+            background: "#fff",
+            border: "1px solid #e5e7eb",
+            borderRadius: 8,
+            padding: 12,
+            zIndex: 100,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+            display: "flex",
+            flexDirection: isMobile ? "column" : "row",
+            gap: 8,
+          }}
+        >
+          {[
+            "#FFADAD",
+            "#FFD6A5",
+            "#FFF9C4",
+            "#CAFFBF",
+            "#A0C4FF",
+            "#9FA8DA",
+            "#BDB2FF",
+            "#FFFFFF",
+            "#EBEBEB",
+            "#CFCFCF",
+          ].map((color) => (
+            <button
+              key={color}
+              style={{
+                width: 28,
+                height: 28,
+                background: color,
+                border: "1.5px solid #acacac",
+                borderRadius: "50%",
+                cursor: "pointer",
+                outline:
+                  selectedNode.data.color === color ? "2px solid #333" : "none",
+              }}
+              onClick={() => {
+                handleChangeColor(color);
+                setShowColorPicker(false);
+              }}
+            />
+          ))}
+        </div>
+      )}
+      <button
+        className="property-button"
+        style={{
+          background: "#ffffff",
+          fontWeight: 600,
+          color: "#FF0000",
+        }}
+        onClick={() => {
+          if (selectedNode) {
+            setNodes((nds) => nds.filter((n) => n.id !== selectedNode.id));
+          }
+        }}
+      >
+        X
+      </button>
+    </div>
+  );
+}
+
+{
+  /* 앱 */
+}
+
 export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -127,7 +255,8 @@ export default function App() {
         if (Array.isArray(data.nodes) && Array.isArray(data.edges)) {
           setNodes(data.nodes);
           setEdges(data.edges);
-          idRef.current = Math.max(...data.nodes.map((n) => parseInt(n.id))) + 1;
+          idRef.current =
+            Math.max(...data.nodes.map((n) => parseInt(n.id))) + 1;
         } else {
           alert("잘못된 파일 형식입니다.");
         }
@@ -218,100 +347,17 @@ export default function App() {
   return (
     <div className="app" ref={wrapperRef}>
       {/* 속성 바 */}
-      {selectedNode && (
-        <div className="property-bar">
-          <span style={{ fontWeight: 600, fontSize: 18 }}>메모 속성</span>
-          <span></span> {/* 한 칸 띄우기용 빈 span */}
-          <button
-            className="property-button"
-            style={{
-              fontWeight: 600,
-              background: selectedNode.data.bold ? "#e0e0e0" : "#ffffff",
-            }}
-            onClick={handleToggleBold}
-          >
-            B
-          </button>
-          <button
-            className="property-button"
-            style={{
-              fontStyle: "italic",
-              background: selectedNode.data.italic ? "#e0e0e0" : "#ffffff",
-            }}
-            onClick={handleToggleItalic}
-          >
-            I
-          </button>
-          <button
-            className="property-button"
-            style={{
-              textDecoration: "line-through",
-              background: selectedNode.data.strike ? "#e0e0e0" : "#ffffff",
-            }}
-            onClick={handleToggleStrike}
-          >
-            S
-          </button>
-          <button
-            className="property-button"
-            style={{
-              background: selectedNode.data.color || "#FFF9C4",
-            }}
-            onClick={() => setShowColorPicker((v) => !v)}
-          />
-          {showColorPicker && (
-            <div
-              style={{
-                position: "absolute",
-                top: 56,
-                left: isMobile ? 237 : 180,
-                background: "#fff",
-                border: "1px solid #e5e7eb",
-                borderRadius: 8,
-                padding: 12,
-                zIndex: 100,
-                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                display: "flex",
-                flexDirection: isMobile ? "column" : "row",
-                gap: 8,
-              }}
-            >
-              {[
-                "#FFADAD",
-                "#FFD6A5",
-                "#FFF9C4",
-                "#CAFFBF",
-                "#A0C4FF",
-                "#9FA8DA",
-                "#BDB2FF",
-                "#FFFFFF",
-                "#EBEBEB",
-                "#CFCFCF",
-              ].map((color) => (
-                <button
-                  key={color}
-                  style={{
-                    width: 28,
-                    height: 28,
-                    background: color,
-                    border: "1.5px solid #acacac",
-                    borderRadius: "50%",
-                    cursor: "pointer",
-                    outline:
-                      selectedNode.data.color === color
-                        ? "2px solid #333"
-                        : "none",
-                  }}
-                  onClick={() => {
-                    handleChangeColor(color);
-                    setShowColorPicker(false);
-                  }}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+      <PropertyBar
+        selectedNode={selectedNode}
+        showColorPicker={showColorPicker}
+        setShowColorPicker={setShowColorPicker}
+        handleToggleBold={handleToggleBold}
+        handleToggleItalic={handleToggleItalic}
+        handleToggleStrike={handleToggleStrike}
+        handleChangeColor={handleChangeColor}
+        setNodes={setNodes}
+        isMobile={isMobile}
+      />
       <aside className="sidebar">
         <h1 className="logo">Noten</h1>
         <div className="buttons-section">
