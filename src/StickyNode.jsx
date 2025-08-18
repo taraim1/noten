@@ -45,7 +45,7 @@ export default function StickyNode({ data, selected, id, onChangeLabel }) {
   return (
     <div
       style={{
-        background: "#FFF9C4",
+        background: data.color || "#FFF9C4",
         padding: 10,
         borderRadius: 8,
         border: selected ? "2.5px solid #747474ff" : "1px solid #ccc",
@@ -54,6 +54,9 @@ export default function StickyNode({ data, selected, id, onChangeLabel }) {
         textAlign: "center",
         cursor: "pointer",
         userSelect: "auto",
+        fontWeight: data.bold ? "bold" : "normal",
+        fontStyle: data.italic ? "italic" : "normal",
+        textDecoration: data.strike ? "line-through" : "none",
       }}
       onDoubleClick={handleDoubleClick}
     >

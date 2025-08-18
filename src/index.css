@@ -99,3 +99,31 @@ body {
   flex: 1;
   height: 100%;
 } 
+
+.property-bar {
+  position: absolute;
+  top: 0;
+  left: 260px;
+  right: 0;
+  height: 64px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 10;
+  gap: 8px;
+}
+
+.property-button {
+  appearance: none;
+  border: 1px solid #acacac;
+  background: #ffffff;
+  color: black;
+  width: 35px;
+  height: 35px;
+  border-radius: 5px;
+  font-weight: 400;
+  font-size: 24px;
+  cursor: pointer;
+}

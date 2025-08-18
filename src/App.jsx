@@ -15,24 +15,28 @@ import StickyNode from "./StickyNode";
 export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [showColorPicker, setShowColorPicker] = React.useState(false);
 
   // 불러오기시 label 업데이트
-  const handleChangeLabel = useCallback((id, newLabel) => {
-    setNodes((nds) =>
-      nds.map((n) =>
-        n.id === id ? { ...n, data: { ...n.data, label: newLabel } } : n
-      )
-    );
-  }, [setNodes]);
+  const handleChangeLabel = useCallback(
+    (id, newLabel) => {
+      setNodes((nds) =>
+        nds.map((n) =>
+          n.id === id ? { ...n, data: { ...n.data, label: newLabel } } : n
+        )
+      );
+    },
+    [setNodes]
+  );
 
-  const nodeTypes = useMemo(() => ({
-    sticky: (props) => (
-      <StickyNode
-        {...props}
-        onChangeLabel={handleChangeLabel}
-      />
-    ),
-  }), [handleChangeLabel]);
+  const nodeTypes = useMemo(
+    () => ({
+      sticky: (props) => (
+        <StickyNode {...props} onChangeLabel={handleChangeLabel} />
+      ),
+    }),
+    [handleChangeLabel]
+  );
 
   const rf = useReactFlow();
   const idRef = useRef(1);
@@ -56,27 +60,30 @@ export default function App() {
         id,
         type: "sticky",
         position: { x: pos.x, y: pos.y - 50 },
-        data: { label: "메모" },
+        data: { label: "메모", color: "#FFF9C4" },
       })
     );
   }, [rf, setNodes]);
 
   /* 엣지 추가 */
-  const onConnect = useCallback((connection) => {
-    if (connection.source === connection.target) return;
+  const onConnect = useCallback(
+    (connection) => {
+      if (connection.source === connection.target) return;
 
-    setEdges((eds) =>
-      addEdge(
-        {
-          ...connection,
-          type: "smoothstep",
-          animated: false,
-          style: { strokeWidth: 2 },
-        },
-        eds
-      )
-    );
-  }, [setEdges]);
+      setEdges((eds) =>
+        addEdge(
+          {
+            ...connection,
+            type: "smoothstep",
+            animated: false,
+            style: { strokeWidth: 2 },
+          },
+          eds
+        )
+      );
+    },
+    [setEdges]
+  );
 
   /* 노드 전체 삭제 */
   const clearAll = useCallback(() => {
@@ -98,7 +105,9 @@ export default function App() {
   // 파일로 저장
   const saveToFile = () => {
     const data = { nodes, edges };
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const blob = new Blob([JSON.stringify(data, null, 2)], {
+      type: "application/json",
+    });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -151,8 +160,141 @@ export default function App() {
     return () => window.removeEventListener("keydown", onKey);
   }, [setNodes, setEdges]);
 
+  const selectedNode = nodes.find((n) => n.selected);
+
+  // 볼드체 토글
+  const handleToggleBold = useCallback(() => {
+    if (!selectedNode) return;
+    setNodes((nds) =>
+      nds.map((n) =>
+        n.id === selectedNode.id
+          ? { ...n, data: { ...n.data, bold: !n.data.bold } }
+          : n
+      )
+    );
+  }, [selectedNode, setNodes]);
+
+  // 이탤릭체 토글
+  const handleToggleItalic = useCallback(() => {
+    if (!selectedNode) return;
+    setNodes((nds) =>
+      nds.map((n) =>
+        n.id === selectedNode.id
+          ? { ...n, data: { ...n.data, italic: !n.data.italic } }
+          : n
+      )
+    );
+  }, [selectedNode, setNodes]);
+
+  // 취소선 토글
+  const handleToggleStrike = useCallback(() => {
+    if (!selectedNode) return;
+    setNodes((nds) =>
+      nds.map((n) =>
+        n.id === selectedNode.id
+          ? { ...n, data: { ...n.data, strike: !n.data.strike } }
+          : n
+      )
+    );
+  }, [selectedNode, setNodes]);
+
+  // 색상 변경
+  const handleChangeColor = useCallback(
+    (color) => {
+      if (!selectedNode) return;
+      setNodes((nds) =>
+        nds.map((n) =>
+          n.id === selectedNode.id ? { ...n, data: { ...n.data, color } } : n
+        )
+      );
+    },
+    [selectedNode, setNodes]
+  );
+
   return (
     <div className="app" ref={wrapperRef}>
+      {/* 속성 바 */}
+      {selectedNode && (
+        <div className="property-bar">
+          <span style={{ fontWeight: 600, fontSize: 18 }}>메모 속성</span>
+          <span></span> {/* 한 칸 띄우기용 빈 span */}
+          <button
+            className="property-button"
+            style={{
+              fontWeight: 600,
+              background: selectedNode.data.bold ? "#e0e0e0" : "#ffffff",
+            }}
+            onClick={handleToggleBold}
+          >
+            B
+          </button>
+          <button
+            className="property-button"
+            style={{
+              fontStyle: "italic",
+              background: selectedNode.data.italic ? "#e0e0e0" : "#ffffff",
+            }}
+            onClick={handleToggleItalic}
+          >
+            I
+          </button>
+          <button
+            className="property-button"
+            style={{
+              textDecoration: "line-through",
+              background: selectedNode.data.strike ? "#e0e0e0" : "#ffffff",
+            }}
+            onClick={handleToggleStrike}
+          >
+            S
+          </button>
+          <button
+            className="property-button"
+            style={{
+              background: selectedNode.data.color || "#FFF9C4",
+            }}
+            onClick={() => setShowColorPicker((v) => !v)}
+          />
+          {showColorPicker && (
+      <div
+        style={{
+          position: "absolute",
+          top: 56,
+          left: 180,
+          background: "#fff",
+          border: "1px solid #e5e7eb",
+          borderRadius: 8,
+          padding: 12,
+          zIndex: 100,
+          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+          display: "flex",
+          gap: 8,
+        }}
+      >
+        {["#FFADAD", "#FFD6A5", "#FFF9C4", "#CAFFBF", "#A0C4FF", "#9FA8DA", "#BDB2FF", "#FFFFFF", "#EBEBEB", "#CFCFCF"].map(
+          (color) => (
+            <button
+              key={color}
+              style={{
+                width: 28,
+                height: 28,
+                background: color,
+                border: "1.5px solid #acacac",
+                borderRadius: "50%",
+                cursor: "pointer",
+                outline: selectedNode.data.color === color ? "2px solid #333" : "none",
+              }}
+              onClick={() => {
+                handleChangeColor(color);
+                setShowColorPicker(false);
+              }}
+            />
+          )
+        )}
+      </div>
+    )}
+        </div>
+      )}
       <aside className="sidebar">
         <h1 className="logo">Noten</h1>
         <div className="buttons-section">
@@ -162,7 +304,9 @@ export default function App() {
           <button className="delete-button" onClick={clearAll}>
             모두 지우기
           </button>
-          <button onClick={saveToFile} className="save-button">저장</button>
+          <button onClick={saveToFile} className="save-button">
+            저장
+          </button>
           <button
             type="button"
             className="load-button"
@@ -185,7 +329,6 @@ export default function App() {
           <p>🖱️ 드래그로 이동, 휠로 줌</p>
         </div>
       </aside>
-
       <main className="canvas">
         <ReactFlow
           ref={(instance) => {
