@@ -211,6 +211,8 @@ export default function App() {
     [selectedNode, setNodes]
   );
 
+  const isMobile = window.innerWidth <= 600;
+
   return (
     <div className="app" ref={wrapperRef}>
       {/* 속성 바 */}
@@ -256,43 +258,56 @@ export default function App() {
             onClick={() => setShowColorPicker((v) => !v)}
           />
           {showColorPicker && (
-      <div
-        style={{
-          position: "absolute",
-          top: 56,
-          left: 180,
-          background: "#fff",
-          border: "1px solid #e5e7eb",
-          borderRadius: 8,
-          padding: 12,
-          zIndex: 100,
-          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-          display: "flex",
-          gap: 8,
-        }}
-      >
-        {["#FFADAD", "#FFD6A5", "#FFF9C4", "#CAFFBF", "#A0C4FF", "#9FA8DA", "#BDB2FF", "#FFFFFF", "#EBEBEB", "#CFCFCF"].map(
-          (color) => (
-            <button
-              key={color}
+            <div
               style={{
-                width: 28,
-                height: 28,
-                background: color,
-                border: "1.5px solid #acacac",
-                borderRadius: "50%",
-                cursor: "pointer",
-                outline: selectedNode.data.color === color ? "2px solid #333" : "none",
+                position: "absolute",
+                top: 56,
+                left: isMobile ? 237 : 180,
+                background: "#fff",
+                border: "1px solid #e5e7eb",
+                borderRadius: 8,
+                padding: 12,
+                zIndex: 100,
+                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                display: "flex",
+                flexDirection: isMobile ? "column" : "row",
+                gap: 8,
               }}
-              onClick={() => {
-                handleChangeColor(color);
-                setShowColorPicker(false);
-              }}
-            />
-          )
-        )}
-      </div>
-    )}
+            >
+              {[
+                "#FFADAD",
+                "#FFD6A5",
+                "#FFF9C4",
+                "#CAFFBF",
+                "#A0C4FF",
+                "#9FA8DA",
+                "#BDB2FF",
+                "#FFFFFF",
+                "#EBEBEB",
+                "#CFCFCF",
+              ].map((color) => (
+                <button
+                  key={color}
+                  style={{
+                    width: 28,
+                    height: 28,
+                    background: color,
+                    border: "1.5px solid #acacac",
+                    borderRadius: "50%",
+                    cursor: "pointer",
+                    outline:
+                      selectedNode.data.color === color
+                        ? "2px solid #333"
+                        : "none",
+                  }}
+                  onClick={() => {
+                    handleChangeColor(color);
+                    setShowColorPicker(false);
+                  }}
+                />
+              ))}
+            </div>
+          )}
         </div>
       )}
       <aside className="sidebar">
@@ -343,9 +358,9 @@ export default function App() {
           onEdgesChange={onEdgesChange}
           onEdgeDoubleClick={onEdgeDoubleClick}
           connectionMode={ConnectionMode.Loose}
-          defaultViewport={{ x: 0, y: 0, zoom: 2 }}
+          defaultViewport={{ x: 0, y: 0, zoom: isMobile ? 1 : 2 }}
         >
-          <MiniMap />
+          <MiniMap className="mini-map" />
           <Controls />
           <Background gap={16} />
         </ReactFlow>

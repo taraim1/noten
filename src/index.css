@@ -19,7 +19,7 @@ body {
 
 .sidebar {
   width: 260px;
-  background: #ffffff; 
+  background: #ffffff;
   border-right: 1px solid #e5e7eb;
   padding: 16px;
   display: flex;
@@ -98,7 +98,7 @@ body {
 .canvas {
   flex: 1;
   height: 100%;
-} 
+}
 
 .property-bar {
   position: absolute;
@@ -126,4 +126,51 @@ body {
   font-weight: 400;
   font-size: 24px;
   cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .app {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100vw;
+    border-right: none;
+    border-top: 1px solid #e5e7eb;
+    flex-direction: row;
+    gap: 8px;
+    padding: 8px;
+    order: 2;
+  }
+
+  .hint {
+    display: none;
+  }
+
+  .mini-map{
+    display: none;
+  }
+
+  .buttons-section {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .buttons-section > button {
+    width: 48%;
+    margin-bottom: 0;
+    font-size: 16px;
+  }
+
+  .canvas {
+    order: 1;
+    height: calc(100vh - 80px); /* 사이드바 높이만큼 조정 */
+  }
+  
+  .property-bar {
+    left: 0;
+    width: 100vw;
+  }
 }
