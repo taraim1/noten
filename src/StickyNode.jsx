@@ -19,6 +19,7 @@ function darken(hex, factor = 0.9) {
 }
 
 export default function StickyNode({ data, selected, id, onChangeLabel }) {
+  const isMobile = window.innerWidth <= 600;
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(data.label || "메모");
   const inputRef = useRef(null);
@@ -113,10 +114,10 @@ export default function StickyNode({ data, selected, id, onChangeLabel }) {
       </div>
 
       {/* 연결 포인트들 */}
-      <Handle type="source" position={Position.Top} id="s-top" className="react-flow__handle" style={{ backgroundColor: darken(data.color, 0.4) }} />
-      <Handle type="source" position={Position.Right} id="s-right" className="react-flow__handle" style={{ backgroundColor: darken(data.color, 0.4) }}/>
-      <Handle type="source" position={Position.Bottom} id="s-bottom" className="react-flow__handle" style={{ backgroundColor: darken(data.color, 0.4) }}/>
-      <Handle type="source" position={Position.Left} id="s-left" className="react-flow__handle" style={{ backgroundColor: darken(data.color, 0.4) }}/>
+      <Handle type="source" position={Position.Top} id="s-top" className="react-flow__handle" style={{ backgroundColor: isMobile ? darken(data.color, 0.8) : darken(data.color, 0.4) }} />
+      <Handle type="source" position={Position.Right} id="s-right" className="react-flow__handle" style={{ backgroundColor: isMobile ? darken(data.color, 0.8) : darken(data.color, 0.4) }}/>
+      <Handle type="source" position={Position.Bottom} id="s-bottom" className="react-flow__handle" style={{ backgroundColor: isMobile ? darken(data.color, 0.8) : darken(data.color, 0.4) }}/>
+      <Handle type="source" position={Position.Left} id="s-left" className="react-flow__handle" style={{ backgroundColor: isMobile ? darken(data.color, 0.8) : darken(data.color, 0.4) }}/>
 
       <Handle
         type="target"
@@ -124,7 +125,7 @@ export default function StickyNode({ data, selected, id, onChangeLabel }) {
         id="t-top"
         isConnectableStart={false}
         className="react-flow__handle"
-        style={{ backgroundColor: darken(data.color, 0.4) }}
+        style={{ backgroundColor: isMobile ? darken(data.color, 0.8) : darken(data.color, 0.4) }}
       />
       <Handle
         type="target"
@@ -132,7 +133,7 @@ export default function StickyNode({ data, selected, id, onChangeLabel }) {
         id="t-right"
         className="react-flow__handle"
         isConnectableStart={false}
-        style={{ backgroundColor: darken(data.color, 0.4) }}
+        style={{ backgroundColor: isMobile ? darken(data.color, 0.8) : darken(data.color, 0.4) }}
       />
       <Handle
         type="target"
@@ -140,7 +141,7 @@ export default function StickyNode({ data, selected, id, onChangeLabel }) {
         id="t-bottom"
         isConnectableStart={false}
         className="react-flow__handle"
-        style={{ backgroundColor: darken(data.color, 0.4) }}
+        style={{ backgroundColor: isMobile ? darken(data.color, 0.8) : darken(data.color, 0.4) }}
       />
       <Handle
         type="target"
@@ -148,7 +149,7 @@ export default function StickyNode({ data, selected, id, onChangeLabel }) {
         id="t-left"
         isConnectableStart={false}
         className="react-flow__handle"
-        style={{ backgroundColor: darken(data.color, 0.4) }}
+        style={{ backgroundColor: isMobile ? darken(data.color, 0.8) : darken(data.color, 0.4) }}
       />
     </div>
   );
