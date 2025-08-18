@@ -113,34 +113,42 @@ export default function StickyNode({ data, selected, id, onChangeLabel }) {
       </div>
 
       {/* 연결 포인트들 */}
-      <Handle type="source" position={Position.Top} id="s-top" />
-      <Handle type="source" position={Position.Right} id="s-right" />
-      <Handle type="source" position={Position.Bottom} id="s-bottom" />
-      <Handle type="source" position={Position.Left} id="s-left" />
+      <Handle type="source" position={Position.Top} id="s-top" className="react-flow__handle" style={{ backgroundColor: darken(data.color, 0.4) }} />
+      <Handle type="source" position={Position.Right} id="s-right" className="react-flow__handle" style={{ backgroundColor: darken(data.color, 0.4) }}/>
+      <Handle type="source" position={Position.Bottom} id="s-bottom" className="react-flow__handle" style={{ backgroundColor: darken(data.color, 0.4) }}/>
+      <Handle type="source" position={Position.Left} id="s-left" className="react-flow__handle" style={{ backgroundColor: darken(data.color, 0.4) }}/>
 
       <Handle
         type="target"
         position={Position.Top}
         id="t-top"
         isConnectableStart={false}
+        className="react-flow__handle"
+        style={{ backgroundColor: darken(data.color, 0.4) }}
       />
       <Handle
         type="target"
         position={Position.Right}
         id="t-right"
+        className="react-flow__handle"
         isConnectableStart={false}
+        style={{ backgroundColor: darken(data.color, 0.4) }}
       />
       <Handle
         type="target"
         position={Position.Bottom}
         id="t-bottom"
         isConnectableStart={false}
+        className="react-flow__handle"
+        style={{ backgroundColor: darken(data.color, 0.4) }}
       />
       <Handle
         type="target"
         position={Position.Left}
         id="t-left"
         isConnectableStart={false}
+        className="react-flow__handle"
+        style={{ backgroundColor: darken(data.color, 0.4) }}
       />
     </div>
   );

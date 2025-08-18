@@ -144,7 +144,10 @@ body {
     flex-direction: row;
     gap: 8px;
     padding: 8px;
-    position: fixed; bottom: 0; left: 0; width: 100dvw;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100dvw;
     z-index: 1000;
   }
 
@@ -179,7 +182,12 @@ body {
     width: 100dvw;
   }
 
-  .controls{
+  .controls {
     display: none;
+  }
+
+  .react-flow__handle {
+    width: 8px;
+    height: 8px;
   }
 }
