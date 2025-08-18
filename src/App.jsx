@@ -361,7 +361,7 @@ export default function App() {
           defaultViewport={{ x: 0, y: 0, zoom: isMobile ? 1 : 2 }}
         >
           <MiniMap className="mini-map" />
-          <Controls />
+          <Controls className="controls" />
           <Background gap={16} />
         </ReactFlow>
       </main>

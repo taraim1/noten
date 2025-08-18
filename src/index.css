@@ -129,25 +129,30 @@ body {
 }
 
 @media (max-width: 600px) {
+  body {
+    overflow-y: auto;
+  }
+
   .app {
     flex-direction: column;
   }
 
   .sidebar {
-    width: 100vw;
+    width: 100dvw;
     border-right: none;
     border-top: 1px solid #e5e7eb;
     flex-direction: row;
     gap: 8px;
     padding: 8px;
-    order: 2;
+    position: fixed; bottom: 0; left: 0; width: 100dvw;
+    z-index: 1000;
   }
 
   .hint {
     display: none;
   }
 
-  .mini-map{
+  .mini-map {
     display: none;
   }
 
@@ -166,11 +171,15 @@ body {
 
   .canvas {
     order: 1;
-    height: calc(100vh - 80px); /* 사이드바 높이만큼 조정 */
+    height: calc(100dvh - 80px); /* 사이드바 높이만큼 조정 */
   }
-  
+
   .property-bar {
     left: 0;
-    width: 100vw;
+    width: 100dvw;
+  }
+
+  .controls{
+    display: none;
   }
 }
