@@ -126,6 +126,7 @@ export default function App() {
         if (Array.isArray(data.nodes) && Array.isArray(data.edges)) {
           setNodes(data.nodes);
           setEdges(data.edges);
+          idRef.current = Math.max(...data.nodes.map((n) => parseInt(n.id))) + 1;
         } else {
           alert("잘못된 파일 형식입니다.");
         }
