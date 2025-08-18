@@ -189,5 +189,6 @@ body {
   .react-flow__handle {
     width: 14px;
     height: 14px;
+    box-shadow: none;
   }
 }

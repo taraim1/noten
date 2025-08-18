@@ -125,7 +125,7 @@ export default function StickyNode({ data, selected, id, onChangeLabel }) {
         id="t-top"
         isConnectableStart={false}
         className="react-flow__handle"
-        style={{ backgroundColor: isMobile ? data.color: darken(data.color, 0.8) }}
+        style={{ backgroundColor: isMobile ? data.color : darken(data.color, 0.8), border: `1px solid ${data.color}` }}
       />
       <Handle
         type="target"
@@ -133,7 +133,7 @@ export default function StickyNode({ data, selected, id, onChangeLabel }) {
         id="t-right"
         className="react-flow__handle"
         isConnectableStart={false}
-        style={{ backgroundColor: isMobile ? data.color : darken(data.color, 0.8) }}
+        style={{ backgroundColor: isMobile ? data.color : darken(data.color, 0.8), border: `1px solid ${data.color}` }}
       />
       <Handle
         type="target"
@@ -141,7 +141,7 @@ export default function StickyNode({ data, selected, id, onChangeLabel }) {
         id="t-bottom"
         isConnectableStart={false}
         className="react-flow__handle"
-        style={{ backgroundColor: isMobile ? data.color : darken(data.color, 0.8) }}
+        style={{ backgroundColor: isMobile ? data.color : darken(data.color, 0.8), border: `1px solid ${data.color}` }}
       />
       <Handle
         type="target"
@@ -149,7 +149,7 @@ export default function StickyNode({ data, selected, id, onChangeLabel }) {
         id="t-left"
         isConnectableStart={false}
         className="react-flow__handle"
-        style={{ backgroundColor: isMobile ? data.color : darken(data.color, 0.8) }}
+        style={{ backgroundColor: isMobile ? data.color : darken(data.color, 0.8), border: `1px solid ${data.color}` }}
       />
     </div>
   );

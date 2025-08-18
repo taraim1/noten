@@ -61,6 +61,7 @@ export default function App() {
         type: "sticky",
         position: { x: pos.x, y: pos.y - 50 },
         data: { label: "메모", color: "#FFF9C4" },
+        className: "sticky-node",
       })
     );
   }, [rf, setNodes]);
