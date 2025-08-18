@@ -23,3 +23,7 @@ React
 React Flow
 
 Vite
+
+## 🚀 배포
+
+👉 [노튼 홈페이지](https://noten-homepage.netlify.app/)
