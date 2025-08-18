@@ -8,7 +8,7 @@ export default function StickyNode({ data, selected, id, onChangeLabel }) {
 
   // 불러오기시 label 업데이트
   useEffect(() => {
-    setValue(data.label || "메모");
+    setValue(data.label !== undefined ? data.label : "메모");
   }, [data.label]);
 
   // 편집 모드 진입 시 input에 포커스

@@ -16,7 +16,7 @@ export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
-  // 콜백을 useCallback으로 생성
+  // 불러오기시 label 업데이트
   const handleChangeLabel = useCallback((id, newLabel) => {
     setNodes((nds) =>
       nds.map((n) =>
@@ -25,7 +25,6 @@ export default function App() {
     );
   }, [setNodes]);
 
-  // nodeTypes를 useMemo로 감싸기
   const nodeTypes = useMemo(() => ({
     sticky: (props) => (
       <StickyNode
