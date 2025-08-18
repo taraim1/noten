@@ -1,6 +1,23 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Handle, Position } from "reactflow";
 
+function darken(hex, factor = 0.9) {
+  // hex: "#RRGGBB"
+  let c = hex.replace("#", "");
+  if (c.length === 3) c = c.split("").map((x) => x + x).join("");
+  const num = parseInt(c, 16);
+  let r = Math.floor(((num >> 16) & 0xff) * factor);
+  let g = Math.floor(((num >> 8) & 0xff) * factor);
+  let b = Math.floor((num & 0xff) * factor);
+  return (
+    "#" +
+    [r, g, b]
+      .map((x) => x.toString(16).padStart(2, "0"))
+      .join("")
+      .toUpperCase()
+  );
+}
+
 export default function StickyNode({ data, selected, id, onChangeLabel }) {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(data.label || "메모");
@@ -54,7 +71,8 @@ export default function StickyNode({ data, selected, id, onChangeLabel }) {
         textAlign: "center",
         cursor: "pointer",
         userSelect: "auto",
-        fontWeight: data.bold ? "bold" : "normal",
+        fontFamily: "Noto Sans KR, sans-serif",
+        fontWeight: data.bold ? "bold" : 400,
         fontStyle: data.italic ? "italic" : "normal",
         textDecoration: data.strike ? "line-through" : "none",
       }}
@@ -82,7 +100,7 @@ export default function StickyNode({ data, selected, id, onChangeLabel }) {
               resize: "none",
               fontFamily: "inherit",
               fontSize: "inherit",
-              background: "#fff6a4ff",
+              background: darken(data.color || "#FFF9C4", 0.95),
               outline: "none",
               overflow: "hidden",
               textAlign: "center",
